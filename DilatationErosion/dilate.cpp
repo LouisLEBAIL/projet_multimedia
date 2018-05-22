@@ -3,7 +3,7 @@
 using namespace cv;
 
 /// Global variables
-Mat src, dilation_dst;
+Mat dilation_dst, src;
 
 int dilation_elem = 0;
 int dilation_size = 0;
@@ -14,14 +14,10 @@ int const max_kernel_size = 21;
 void Dilation( int, void* );
 
 /** @function main */
-int main( int argc, char** argv )
+void Dilatation(Mat source)
 {
-  /// Load an image
-  src = imread( argv[1] );
 
-  if( !src.data )
-  { return -1; }
-
+  src = source;
   /// Create windows
   namedWindow( "Dilation Demo", CV_WINDOW_AUTOSIZE );
 
@@ -38,12 +34,12 @@ int main( int argc, char** argv )
   Dilation( 0, 0 );
 
   waitKey(0);
-  return 0;
 }
 
 /** @function Dilation */
 void Dilation( int, void* )
 {
+
   int dilation_type;
   if( dilation_elem == 0 ){ dilation_type = MORPH_RECT; }
   else if( dilation_elem == 1 ){ dilation_type = MORPH_CROSS; }
