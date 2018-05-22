@@ -9,6 +9,7 @@ Auteurs:
 - Jeremy Huang
 - Theo Leroux
 - Sherylen Moorghen
+- William Dumont
 - Louis Le Bail
  
 <(^_^)>
