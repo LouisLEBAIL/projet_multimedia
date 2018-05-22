@@ -40,15 +40,15 @@ void lightDark()
 
     // Create Trackbars
  	char TrackbarNameAlpha[50];
- 	char TrackbarNameBeta[50];
- 	sprintf( TrackbarNameAlpha, "Alpha [0 - 3.0]");
-  	sprintf( TrackbarNameBeta, "Beta [0 - 100]" );
+ 	//char TrackbarNameBeta[50];
+ 	sprintf( TrackbarNameAlpha, "Brightness");
+  	//sprintf( TrackbarNameBeta, "Beta [0 - 100]" );
 
  	createTrackbar( TrackbarNameAlpha, "Display", &alpha_slider, alpha_slider_max, on_trackbar1 );
-  	createTrackbar( TrackbarNameBeta, "Display", &beta_slider, beta_slider_max, on_trackbar2 );
+  	//createTrackbar( TrackbarNameBeta, "Display", &beta_slider, beta_slider_max, on_trackbar2 );
 
     on_trackbar1(alpha_slider, 0);
-    on_trackbar2(beta_slider, 0);
+    //on_trackbar2(beta_slider, 0);
     
     // Wait for any key stroke
     waitKey(0);
