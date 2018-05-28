@@ -1,43 +1,53 @@
-#include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <iostream>
+#include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include <stdlib.h>
+#include <stdio.h>
 
 using namespace cv;
-using namespace std;
 
-int main(int argc, char** argv)
+/**
+ * @function CannyThreshold
+ * @brief Trackbar callback - Canny thresholds input with a ratio 1:3
+ */
+void CannyThreshold(int, void*)
 {
-    // Read the image file
-	Mat image;
-  	image = imread("van_gogh.jpg" , CV_LOAD_IMAGE_COLOR);
+  /// Reduce noise with a kernel 3x3
+  blur( src_gray, detected_edges, Size(3,3) );
 
-    // Check for failure
-    if(! image.data ) {
-      std::cout <<  "Could not open or find the image" << std::endl ;
-      return -1;
-    }
-  	
-    //Blur the image with 3x3 kernel
-    Mat edges;
-    Canny(image, edges, 50, 150, 3);
+  /// Canny detector
+  Canny( detected_edges, detected_edges, lowThreshold, lowThreshold*ratio, kernel_size );
 
-    //Define names of the windows
-    String window_name1 = "original image";
-    String window_name2 = "canny edge detection";
-    
-    // Create windows with above names
-    namedWindow( window_name1, cv::WINDOW_AUTOSIZE );
-    namedWindow( window_name2, cv::WINDOW_AUTOSIZE );
-  	
+  /// Using Canny's output as a mask, we display our result
+  dst = Scalar::all(0);
 
-    // Show our images inside the created windows.
-    imshow( "original image", image );
-    imshow( "canny edge detection", edges );
-
-    waitKey(0);// Wait for any keystroke in the window
-
-    return 0; //destroy all opened windows
+  src.copyTo( dst, detected_edges);
+  imshow( "Display", dst );
+ }
 
 
-}
+/** @function main */
+void EdgeDetection()
+{
 
+  /// Create a matrix of the same type and size as src (for dst)
+  dst.create( src.size(), src.type() );
+
+  /// Convert the image to grayscale
+  cvtColor( src, src_gray, CV_BGR2GRAY );
+
+  /// Create a window
+  namedWindow("Display", WINDOW_AUTOSIZE);
+
+  /// Create a Trackbar for user to enter threshold
+  createTrackbar( "Min Threshold:", "Display", &lowThreshold, max_lowThreshold, CannyThreshold );
+
+  /// Show the image
+  CannyThreshold(0, 0);
+
+  /// Wait until user exit program by pressing a key
+  waitKey(0);
+
+  //destroy all opened windows
+  destroyAllWindows();
+
+  }

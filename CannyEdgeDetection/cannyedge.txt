@@ -1,2 +1,0 @@
-lien vers le code avec slider
-https://docs.opencv.org/2.4/doc/tutorials/imgproc/imgtrans/canny_detector/canny_detector.html

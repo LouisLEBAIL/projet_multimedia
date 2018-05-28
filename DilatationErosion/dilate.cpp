@@ -2,42 +2,35 @@
 
 using namespace cv;
 
-/// Global variables
-Mat dilation_dst, src;
-
-int dilation_elem = 0;
-int dilation_size = 0;
-int const max_elem = 2;
-int const max_kernel_size = 21;
-
 /** Function Headers */
-void Dilation( int, void* );
+void Dilation_trackbar( int, void* );
 
 /** @function main */
-void Dilatation(Mat source)
+void Dilation()
 {
-
-  src = source;
   /// Create windows
   namedWindow( "Dilation Demo", CV_WINDOW_AUTOSIZE );
 
   /// Create Dilation Trackbar
   createTrackbar( "Element:\n 0: Rect \n 1: Cross \n 2: Ellipse", "Dilation Demo",
                   &dilation_elem, max_elem,
-                  Dilation );
+                  Dilation_trackbar );
 
   createTrackbar( "Kernel size:\n 2n +1", "Dilation Demo",
                   &dilation_size, max_kernel_size,
-                  Dilation );
+                  Dilation_trackbar );
 
   /// Default start
-  Dilation( 0, 0 );
+  Dilation_trackbar( 0, 0 );
 
   waitKey(0);
+
+  destroyAllWindows();
+
 }
 
 /** @function Dilation */
-void Dilation( int, void* )
+void Dilation_trackbar( int, void* )
 {
 
   int dilation_type;
@@ -49,6 +42,6 @@ void Dilation( int, void* )
                                        Size( 2*dilation_size + 1, 2*dilation_size+1 ),
                                        Point( dilation_size, dilation_size ) );
   /// Apply the dilation operation
-  dilate( src, dilation_dst, element );
-  imshow( "Dilation Demo", dilation_dst );
+  dilate( src, dst, element );
+  imshow( "Dilation Demo", dst );
 }

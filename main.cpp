@@ -1,5 +1,6 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
+#include "global.cpp"
 #include "menu.cpp"
 #include <string>
 
@@ -16,19 +17,16 @@ int main(int argc, char** argv){
 	cin >> imageName;
 
 	// read the image
-	 Mat src = imread(imageName,IMREAD_COLOR);
+	src = imread(imageName,IMREAD_COLOR);
 
 	if (!src.data){
       printf("No image data\n");
       return -1;
     }
 
-	bool stop = true;
-
-	while (stop){
+	do {
 		printMenu();
-		stop = choiceMenu(stop,src);
-	}
+	} while(choiceMenu());
 
    return 0;
 }

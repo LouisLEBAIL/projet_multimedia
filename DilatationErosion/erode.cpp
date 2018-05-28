@@ -2,25 +2,12 @@
 
 using namespace cv;
 
-/// Global variables
-Mat src, erosion_dst;
-
-int erosion_elem = 0;
-int erosion_size = 0;
-int const max_elem = 2;
-int const max_kernel_size = 21;
-
 /** Function Headers */
-void Erosion( int, void* );
+void Erosion_trackbar( int, void* );
 
 /** @function main */
-int main( int argc, char** argv )
+int Erosion()
 {
-  /// Load an image
-  src = imread( argv[1] );
-
-  if( !src.data )
-  { return -1; }
 
   /// Create windows
   namedWindow( "Erosion Demo", CV_WINDOW_AUTOSIZE );
@@ -28,21 +15,24 @@ int main( int argc, char** argv )
   /// Create Erosion Trackbar
   createTrackbar( "Element:\n 0: Rect \n 1: Cross \n 2: Ellipse", "Erosion Demo",
                   &erosion_elem, max_elem,
-                  Erosion );
+                  Erosion_trackbar );
 
   createTrackbar( "Kernel size:\n 2n +1", "Erosion Demo",
                   &erosion_size, max_kernel_size,
-                  Erosion );
+                  Erosion_trackbar );
 
   /// Default start
-  Erosion( 0, 0 );
+  Erosion_trackbar( 0, 0 );
 
   waitKey(0);
+
+  destroyAllWindows();
+  
   return 0;
 }
 
 /**  @function Erosion  */
-void Erosion( int, void* )
+void Erosion_trackbar( int, void* )
 {
   int erosion_type;
   if( erosion_elem == 0 ){ erosion_type = MORPH_RECT; }
@@ -54,6 +44,6 @@ void Erosion( int, void* )
                                        Point( erosion_size, erosion_size ) );
 
   /// Apply the erosion operation
-  erode( src, erosion_dst, element );
-  imshow( "Erosion Demo", erosion_dst );
+  erode( src, dst, element );
+  imshow( "Erosion Demo", dst );
 }

@@ -5,7 +5,7 @@
 using namespace cv;
 using namespace std;
 
-void Resizing(Mat source){
+void Resizing(){
 
 	Mat dst;
 
@@ -16,19 +16,19 @@ void Resizing(Mat source){
 	cin >> scaleY;
 
 	// Scaling the image
-	resize(source,dst, Size(),scaleX, scaleY, INTER_LINEAR);
+	resize(src, dst, Size(), scaleX, scaleY, INTER_LINEAR);
 
 	 // Naming window
-    string windowNameOriginalImage="Original Image";
-    string windowNameResizedImage="Resized Image";
+    string windowNameOriginalImage = "Original Image";
+    string windowNameResizedImage = "Resized Image";
 
     //Create window
     namedWindow(windowNameOriginalImage, WINDOW_AUTOSIZE);
     namedWindow(windowNameResizedImage, WINDOW_AUTOSIZE);
 
     // Show our images inside the created windows.
-    imshow(windowNameOriginalImage,source);
-    imshow(windowNameResizedImage,dst);
+    imshow(windowNameOriginalImage, src);
+    imshow(windowNameResizedImage, dst);
 
     // Wait for any keystroke in the window
     waitKey(0); 
