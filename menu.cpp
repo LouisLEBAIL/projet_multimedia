@@ -32,6 +32,8 @@ bool choiceMenu() {
 		case 2:
 			lightDark();
 			break;
+		case 3:
+			break;
 		case 4:
 			Dilation();
 			break;
