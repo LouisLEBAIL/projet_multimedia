@@ -18,7 +18,7 @@ int const max_shape = 2;
 int const max_kernel_size = 21;
 
 // brightness
-int const alpha_slider_max = 100;
+int const alpha_slider_max = 200;
 int alpha_slider = 100;
 
 // edge detection
