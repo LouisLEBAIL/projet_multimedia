@@ -43,6 +43,9 @@ bool choiceMenu() {
 		case 6:
 			EdgeDetection();
 			break;
+		case 7:
+			panoramaStitching();
+			break;
 	}
 	return true;
 }
