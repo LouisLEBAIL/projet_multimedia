@@ -4,6 +4,7 @@ using namespace cv;
 
 // Global variables
 Mat src, dst, src_gray, detected_edges;
+VideoCapture cap;
 
 // erosion
 int erosion_elem = 0;
