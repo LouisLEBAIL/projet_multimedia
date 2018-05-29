@@ -8,6 +8,7 @@
 #include "DilatationErosion/erode.cpp"
 #include "LightenDarken/lightenDarken.cpp"
 #include "CannyEdgeDetection/cannyEdgeDetection.cpp"
+#include "PanoramaStitching/panoramaStitching.cpp"
 
 using namespace std;
 
@@ -42,19 +43,21 @@ bool choiceEditingMenu(int prev_choice) {
 			lightDark(prev_choice);
 			break;
 		case 2:
-			Dilation();
+			Dilation(prev_choice);
 			break;
 		case 3:
-			Erosion();
+			Erosion(prev_choice);
 			break;
 		case 4:
-			EdgeDetection();
+			EdgeDetection(prev_choice);
 			break;
 		case 5:
 			if (prev_choice == 1)
 				Resizing();
 			break;
 		case 6:
+			if (prev_choice == 1)
+				panoramaStitching();
 			break;
 		default:
 			cout << "Wrong menu command" << endl;
@@ -63,39 +66,52 @@ bool choiceEditingMenu(int prev_choice) {
 	return true;
 }
 
+int openImage() {
+	cout << "Choisissez votre image file" << endl;
+	string imageName;
+	cin >> imageName;
+	// read the image
+	src = imread(imageName,IMREAD_COLOR);
+
+	if (!src.data){
+		printf("No image data\n");
+		return -1;
+	}
+	return 0;
+}
+
+int openVideo(int choice) {
+	if (choice == 2) {
+		cout << "Choisissez votre video file" << endl;
+		cin >> videoName;
+		cap = VideoCapture(videoName);
+	} else {
+		cap = VideoCapture(1);
+	}
+
+	if(!cap.isOpened()){
+		cout << "Error opening video stream or file" << endl;
+		return -1;
+	}
+	return 0;
+}
+
 bool choiceFirstMenu() {
 	int choice;
 	cin >> choice;
 
+	int safeOpen;
 
 	if (choice == 0) {
 		return false;
 	} else if (choice == 1) {
-		cout << "Choisissez votre image file" << endl;
-		string imageName;
-		cin >> imageName;
-		// read the image
-		src = imread(imageName,IMREAD_COLOR);
-		if (!src.data){
-			printf("No image data\n");
-			return -1;
-		}
+		safeOpen = openImage();
 	} else if (choice == 2 || choice == 3) {
-		if (choice == 2) {
-			cout << "Choisissez votre video file" << endl;
-			string videoName;
-			cin >> videoName;
-			// read the image
-			cap = VideoCapture(videoName);
-		} else {
-			cap = VideoCapture(1);
-		}
-
-		if(!cap.isOpened()){
-			cout << "Error opening video stream or file" << endl;
-			return -1;
-		}
+		safeOpen = openVideo(choice);
 	}
+
+	if (safeOpen == -1)
+		return true;
 
 	if (choice > 0 && choice <= 3) {
 		do {

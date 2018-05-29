@@ -1,21 +1,27 @@
 #include <opencv2/opencv.hpp>
+#include <iostream>
+#include <string>
 
+using namespace std;
 using namespace cv;
 
 // Global variables
 Mat src, dst, src_gray, detected_edges;
 VideoCapture cap;
 
+// Video
+string videoName;
+
 // erosion
-int erosion_elem = 0;
+int erosion_shape = 0;
 int erosion_size = 0;
 
 // dilation
-int dilation_elem = 0;
+int dilation_shape = 0;
 int dilation_size = 0;
 
-// erosion & delation
-int const max_elem = 2;
+// erosion & dilation
+int const max_shape = 2;
 int const max_kernel_size = 21;
 
 // brightness

@@ -1,49 +1,78 @@
 #include <opencv2/opencv.hpp>
-
 using namespace cv;
 
-/** Function Headers */
-void Erosion_trackbar( int, void* );
+/*Function headers*/
+void Erosion_trackbar(int, void*);
 
-/** @function main */
-int Erosion()
-{
+/*Erosion function*/
+void Erosion(int choice) {
 
-  /// Create windows
-  namedWindow( "Erosion Demo", CV_WINDOW_AUTOSIZE );
+  /*Create windows*/
+  namedWindow( "Erosion", CV_WINDOW_AUTOSIZE );
 
-  /// Create Erosion Trackbar
-  createTrackbar( "Element:\n 0: Rect \n 1: Cross \n 2: Ellipse", "Erosion Demo",
-                  &erosion_elem, max_elem,
-                  Erosion_trackbar );
+  /*Create erosion trackbar*/
+  createTrackbar("shape:\n 0: Rect \n 1: Cross \n 2: Ellipse", "Erosion",
+                 &erosion_shape, max_shape,
+                 Erosion_trackbar);
 
-  createTrackbar( "Kernel size:\n 2n +1", "Erosion Demo",
-                  &erosion_size, max_kernel_size,
-                  Erosion_trackbar );
+  createTrackbar("Kernel size:\n 2n +1", "Erosion",
+                 &erosion_size, max_kernel_size,
+                 Erosion_trackbar);
 
-  /// Default start
-  Erosion_trackbar( 0, 0 );
+  if (choice == 1) {
+    /*Start*/
+    Erosion_trackbar( 0, 0 );
 
-  waitKey(0);
+    /*End*/
+    waitKey(0);
+  } else {
 
+    cout << "press escape to close the video" << endl;
+    while(1) {
+
+    // Capture frame-by-frame
+    cap >> src;
+
+    // If the frame is empty, break immediately
+    if (!cap.read(src)) 
+    {
+        cout << "end of the video!" << endl;
+        break;
+    }
+
+    Erosion_trackbar(0, 0);
+
+    // Press  ESC on keyboard to exit
+    char c=(char)waitKey(25);
+    if(c==27)
+        break;
+    }
+
+    // When everything done, release the video capture object
+    cap.release();
+
+    if (choice == 2) {
+      cap = VideoCapture(videoName);
+    }
+  }
   destroyAllWindows();
-  
-  return 0;
+
 }
 
-/**  @function Erosion  */
-void Erosion_trackbar( int, void* )
-{
+/*Erosion trackbar function*/
+void Erosion_trackbar(int, void*) {
+
   int erosion_type;
-  if( erosion_elem == 0 ){ erosion_type = MORPH_RECT; }
-  else if( erosion_elem == 1 ){ erosion_type = MORPH_CROSS; }
-  else if( erosion_elem == 2) { erosion_type = MORPH_ELLIPSE; }
+  if(erosion_shape == 0) {erosion_type = MORPH_RECT;}
+  else if(erosion_shape == 1) {erosion_type = MORPH_CROSS;}
+  else if(erosion_shape == 2) {erosion_type = MORPH_ELLIPSE;}
 
-  Mat element = getStructuringElement( erosion_type,
-                                       Size( 2*erosion_size + 1, 2*erosion_size+1 ),
-                                       Point( erosion_size, erosion_size ) );
+  Mat shape = getStructuringElement(erosion_type,
+                                    Size(2*erosion_size+1, 2*erosion_size+1),
+                                    Point(erosion_size, erosion_size));
 
-  /// Apply the erosion operation
-  erode( src, dst, element );
-  imshow( "Erosion Demo", dst );
+  /*Operate erotion*/
+  erode(src, dst, shape);
+  imshow("Erosion", dst);
+
 }

@@ -1,5 +1,6 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
+#include <stdio.h>
 
 using namespace std;
 using namespace cv;
@@ -8,6 +9,7 @@ void on_trackbar1( int, void* )
 {
     double alpha = (double) alpha_slider/alpha_slider_max;
     addWeighted( src, alpha, src, 0, 0.0, dst);
+    imshow( "Display", dst );
 }
 
 void lightDark(int choice)
@@ -24,7 +26,6 @@ void lightDark(int choice)
     if (choice == 1) {
 
         on_trackbar1(alpha_slider, 0);
-        imshow( "Display", dst );
         // Wait for any key stroke
         waitKey(0);
     } else {
@@ -44,15 +45,18 @@ void lightDark(int choice)
 
         on_trackbar1(alpha_slider, 0);
 
-        imshow( "Display", dst );
         // Press  ESC on keyboard to exit
         char c=(char)waitKey(25);
         if(c==27)
-        break;
+            break;
         }
 
         // When everything done, release the video capture object
         cap.release();
+
+        if (choice == 2) {
+            cap = VideoCapture(videoName);
+        }
 
   }
 

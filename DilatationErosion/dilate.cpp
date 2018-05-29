@@ -1,47 +1,79 @@
 #include <opencv2/opencv.hpp>
-
 using namespace cv;
 
-/** Function Headers */
-void Dilation_trackbar( int, void* );
+/*Function headers*/
+void Dilation_trackbar(int, void*);
 
-/** @function main */
-void Dilation()
-{
-  /// Create windows
-  namedWindow( "Dilation Demo", CV_WINDOW_AUTOSIZE );
+/*Dilation function*/
+void Dilation(int choice) {
 
-  /// Create Dilation Trackbar
-  createTrackbar( "Element:\n 0: Rect \n 1: Cross \n 2: Ellipse", "Dilation Demo",
-                  &dilation_elem, max_elem,
-                  Dilation_trackbar );
+  /*Create windows*/
+  namedWindow("Dilation", CV_WINDOW_AUTOSIZE);
 
-  createTrackbar( "Kernel size:\n 2n +1", "Dilation Demo",
-                  &dilation_size, max_kernel_size,
-                  Dilation_trackbar );
+  /*Create dilation trackbar*/
+  createTrackbar("Shape:\n 0: Rect \n 1: Cross \n 2: Ellipse", "Dilation",
+                 &dilation_shape, max_shape,
+                 Dilation_trackbar);
 
-  /// Default start
-  Dilation_trackbar( 0, 0 );
+  createTrackbar("Kernel size:\n 2n +1", "Dilation",
+                 &dilation_size, max_kernel_size,
+                 Dilation_trackbar);
 
-  waitKey(0);
+  if (choice == 1) {
+    /*Start*/
+    Dilation_trackbar(0, 0);
 
+    /*End*/
+    waitKey(0);
+  } else {
+    
+    cout << "press escape to close the video" << endl;
+    while(1) {
+
+    // Capture frame-by-frame
+    cap >> src;
+
+    // If the frame is empty, break immediately
+    if (!cap.read(src)) 
+    {
+        cout << "end of the video!" << endl;
+        break;
+    }
+
+    Dilation_trackbar(0, 0);
+
+    // Press  ESC on keyboard to exit
+    char c=(char)waitKey(25);
+    if(c==27)
+        break;
+    }
+
+    // When everything done, release the video capture object
+    cap.release();
+
+    if (choice == 2) {
+      cap = VideoCapture(videoName);
+    }
+    
+  }
   destroyAllWindows();
 
 }
 
-/** @function Dilation */
-void Dilation_trackbar( int, void* )
-{
+/*Dilation trackbar function*/
+void Dilation_trackbar(int, void*) {
 
   int dilation_type;
-  if( dilation_elem == 0 ){ dilation_type = MORPH_RECT; }
-  else if( dilation_elem == 1 ){ dilation_type = MORPH_CROSS; }
-  else if( dilation_elem == 2) { dilation_type = MORPH_ELLIPSE; }
+  if(dilation_shape == 0) {dilation_type = MORPH_RECT;}
+  else if(dilation_shape == 1) {dilation_type = MORPH_CROSS;}
+  else if(dilation_shape == 2) {dilation_type = MORPH_ELLIPSE;}
 
-  Mat element = getStructuringElement( dilation_type,
-                                       Size( 2*dilation_size + 1, 2*dilation_size+1 ),
-                                       Point( dilation_size, dilation_size ) );
-  /// Apply the dilation operation
-  dilate( src, dst, element );
-  imshow( "Dilation Demo", dst );
+  Mat shape = getStructuringElement(dilation_type,
+                                    Size(2*dilation_size+1, 2*dilation_size+1),
+                                    Point(dilation_size, dilation_size));
+  
+  /*Operate dilation*/
+  dilate(src, dst, shape);
+  imshow("Dilation", dst);
+
 }
