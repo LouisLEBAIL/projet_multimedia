@@ -22,22 +22,27 @@ void FaceDetection(){
   CascadeClassifier face_cascade;
   face_cascade.load( "haarcascade_frontalface_alt2.xml" );
 
-  // Detect faces
-  std::vector<Rect> faces;
-  face_cascade.detectMultiScale( src, faces, 1.1, 2, 0|CV_HAAR_SCALE_IMAGE, Size(30, 30) );
-
-  /*
   //make copy of src in dst
   dst = src.clone();
-*/
+
+  // Detect faces
+  std::vector<Rect> faces;
+  face_cascade.detectMultiScale( dst, faces, 1.1, 2, 0|CV_HAAR_SCALE_IMAGE, Size(30, 30) );
+
   // Draw circles on the detected faces
   for( int i = 0; i < faces.size(); i++ )
   {
       Point center( faces[i].x + faces[i].width*0.5, faces[i].y + faces[i].height*0.5 );
-      ellipse( src, center, Size( faces[i].width*0.5, faces[i].height*0.5), 0, 0, 360, Scalar( 255, 0, 255 ), 4, 8, 0 );
+      ellipse( dst, center, Size( faces[i].width*0.5, faces[i].height*0.5), 0, 0, 360, Scalar( 255, 0, 255 ), 4, 8, 0 );
   }
 
-  imshow( "Display", src );
+  imshow( "Display", dst );
+
+  // Wait for any key stroke
+    waitKey(0);
+
+    //destroy all open windows
+    destroyAllWindows();
 
 
 
