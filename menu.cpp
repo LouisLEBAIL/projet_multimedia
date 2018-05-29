@@ -6,6 +6,7 @@
 #include "LightenDarken/lightenDarken.cpp"
 #include "CannyEdgeDetection/cannyEdgeDetection.cpp"
 #include "PanoramaStitching/panoramaStitching.cpp"
+#include "FaceDetection/faceDetection.cpp"
 
 using namespace std;
 
@@ -17,6 +18,8 @@ void printMenu() {
 	cout << "4 - dilation" << endl;
 	cout << "5 - erosion" << endl;
 	cout << "6 - canny edge detection" << endl;
+	cout << "7 - face detection" << endl;
+
 }
 
 bool choiceMenu() {
@@ -44,6 +47,9 @@ bool choiceMenu() {
 			break;
 		case 6:
 			EdgeDetection();
+			break;
+		case 7:
+			FaceDetection();
 			break;
 	}
 	return true;
