@@ -7,12 +7,10 @@ using namespace cv;
 
 void panoramaStitching()
 {
-	//Stitcher::Mode mode = Stitcher::PANORAMA;
 	namedWindow("Display", WINDOW_AUTOSIZE);
-	string imageName2;
-	Mat src2;
 	vector<Mat> imgs;
-
+	string imageName2;
+	
 	cout << "Choisissez votre seconde image" << endl;
 	cin >> imageName2;
 
@@ -25,7 +23,6 @@ void panoramaStitching()
 
 	imgs.push_back(src);
 	imgs.push_back(src2);
-	//src2.erase();
 	
 	Ptr<Stitcher> stitcher = Stitcher::create(Stitcher::PANORAMA, true);
 	Stitcher::Status status = stitcher->stitch(imgs, dst);

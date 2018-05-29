@@ -3,7 +3,7 @@
 using namespace cv;
 
 // Global variables
-Mat src, dst, src_gray, detected_edges;
+Mat src, src2, dst, src_gray, detected_edges;
 
 // erosion
 int erosion_shape = 0;
