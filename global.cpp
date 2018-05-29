@@ -6,15 +6,15 @@ using namespace cv;
 Mat src, dst, src_gray, detected_edges;
 
 // erosion
-int erosion_elem = 0;
+int erosion_shape = 0;
 int erosion_size = 0;
 
 // dilation
-int dilation_elem = 0;
+int dilation_shape = 0;
 int dilation_size = 0;
 
-// erosion & delation
-int const max_elem = 2;
+// erosion & dilation
+int const max_shape = 2;
 int const max_kernel_size = 21;
 
 // brightness
