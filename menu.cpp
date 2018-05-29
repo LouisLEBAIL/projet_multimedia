@@ -5,6 +5,7 @@
 #include "DilatationErosion/erode.cpp"
 #include "LightenDarken/lightenDarken.cpp"
 #include "CannyEdgeDetection/cannyEdgeDetection.cpp"
+#include "PanoramaStitching/panoramaStitching.cpp"
 
 using namespace std;
 
@@ -33,6 +34,7 @@ bool choiceMenu() {
 			lightDark();
 			break;
 		case 3:
+			panoramaStitching();
 			break;
 		case 4:
 			Dilation();
@@ -42,9 +44,6 @@ bool choiceMenu() {
 			break;
 		case 6:
 			EdgeDetection();
-			break;
-		case 7:
-			panoramaStitching();
 			break;
 	}
 	return true;
