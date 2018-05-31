@@ -8,6 +8,7 @@ using namespace cv;
 struct button {
 	int id;
 	Rect rect;
+    Rect hover_rect;
 };
 
 // Global variables

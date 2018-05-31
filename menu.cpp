@@ -100,9 +100,11 @@ void callBackFuncFirstMenu(int event, int x, int y, int flags, void* userdata)
 				}
 				return;
 			}
-			rectangle(img, bt -> rect, Scalar(0, 0, 255), 1, 8);
+			rectangle(img, bt -> hover_rect, Scalar(255, 0, 0), 1, 8);
+			rectangle(img, bt -> rect, Scalar(255, 255, 255), 1, 8);
 		} else {
 			rectangle(img, bt -> rect, Scalar(255, 0, 0), 1, 8);
+			rectangle(img, bt -> hover_rect, Scalar(255, 255, 255), 1, 8);
 		}
 	}
 	imshow("display", img);
@@ -124,9 +126,11 @@ void callBackFuncEditingMenu(int event, int x, int y, int flags, void* userdata)
 				}
 				return;
 			}
-			rectangle(img, bt -> rect, Scalar(0, 0, 255), 1, 8);
+			rectangle(img, bt -> hover_rect, Scalar(255, 0, 0), 1, 8);
+			rectangle(img, bt -> rect, Scalar(255, 255, 255), 1, 8);
 		} else {
 			rectangle(img, bt -> rect, Scalar(255, 0, 0), 1, 8);
+			rectangle(img, bt -> hover_rect, Scalar(255, 255, 255), 1, 8);
 		}
 	}
 	imshow("display", img);
@@ -143,6 +147,7 @@ void drawMenu(int size, int menu_nb, int choice) {
 	for (int i = 1; i < size+1; i++) {
 		button bt;
 		bt.rect = Rect(50, 100 + ((i-1)*75), 200, 50);
+		bt.hover_rect = Rect(bt.rect.x-10, bt.rect.y-10, bt.rect.width + 20, bt.rect.height + 20);
 		bt.id = i-1;
 		buttons.push_back(bt);
     	rectangle(img, bt.rect, Scalar(255, 0, 0), 1, 8);
