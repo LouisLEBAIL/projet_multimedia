@@ -7,7 +7,7 @@ using namespace cv;
 
 void on_trackbar1( int, void* )
 {
-    double alpha = (double) alpha_slider/alpha_slider_max;
+    double alpha = (double) alpha_slider/(alpha_slider_max/2);
     addWeighted( src, alpha, src, 0, 0.0, dst);
     imshow( "Display", dst );
 }
@@ -50,9 +50,6 @@ void lightDark(int choice)
         if(c==27)
             break;
         }
-
-        // When everything done, release the video capture object
-        cap.release();
 
         if (choice == 2) {
             cap = VideoCapture(videoName);

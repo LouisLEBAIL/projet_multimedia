@@ -11,7 +11,7 @@ struct button {
 };
 
 // Global variables
-Mat src, dst, src_gray, detected_edges;
+Mat src, src2, dst, src_gray, detected_edges;
 VideoCapture cap;
 
 // Video
@@ -30,7 +30,7 @@ int const max_shape = 2;
 int const max_kernel_size = 21;
 
 // brightness
-int const alpha_slider_max = 100;
+int const alpha_slider_max = 200;
 int alpha_slider = 100;
 
 // edge detection
@@ -44,7 +44,7 @@ int kernel_size = 3;
 vector<button> buttons;
 string title[4] = {"C++ Editor", "Image", "Video", "Stream"};
 string texts_first_menu[4] = {"Exit", "Image", "Video", "Stream"};
-string texts_editing_menu[7] = {"Back", "Light and dark", "Dilation", "Erosion", "Edge Detection", "Resizing", "Panorama/stitching"};
+string texts_editing_menu[8] = {"Back", "Light and dark", "Dilation", "Erosion", "Edge Detection", "Face detection", "Resizing", "Panorama/stitching"};
 int editingMenuChoice;
 bool backToFirstMenu = false;
 bool quitApp = false;

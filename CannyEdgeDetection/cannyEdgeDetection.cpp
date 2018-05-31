@@ -51,32 +51,29 @@ void EdgeDetection(int choice)
     cout << "press escape to close the video" << endl;
     while(1) {
 
-    // Capture frame-by-frame
-    cap >> src;
+      // Capture frame-by-frame
+      cap >> src;
 
-    // If the frame is empty, break immediately
-    if (!cap.read(src)) 
-    {
-        cout << "end of the video!" << endl;
-        break;
+      // If the frame is empty, break immediately
+      if (!cap.read(src)) 
+      {
+          cout << "end of the video!" << endl;
+          break;
+      }
+
+      /// Create a matrix of the same type and size as src (for dst)
+      dst.create( src.size(), src.type() );
+
+      /// Convert the image to grayscale
+      cvtColor( src, src_gray, CV_BGR2GRAY );
+
+      CannyThreshold(alpha_slider, 0);
+
+      // Press  ESC on keyboard to exit
+      char c=(char)waitKey(25);
+      if(c==27)
+          break;
     }
-
-    /// Create a matrix of the same type and size as src (for dst)
-    dst.create( src.size(), src.type() );
-
-    /// Convert the image to grayscale
-    cvtColor( src, src_gray, CV_BGR2GRAY );
-
-    CannyThreshold(alpha_slider, 0);
-
-    // Press  ESC on keyboard to exit
-    char c=(char)waitKey(25);
-    if(c==27)
-        break;
-    }
-
-    // When everything done, release the video capture object
-    cap.release();
 
     if (choice == 2) {
       cap = VideoCapture(videoName);

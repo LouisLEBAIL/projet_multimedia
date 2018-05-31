@@ -10,6 +10,7 @@
 #include "LightenDarken/lightenDarken.cpp"
 #include "CannyEdgeDetection/cannyEdgeDetection.cpp"
 #include "PanoramaStitching/panoramaStitching.cpp"
+#include "FaceDetection/faceDetection.cpp"
 
 using namespace std;
 
@@ -40,10 +41,13 @@ bool choiceEditingMenu(int choice, int prev_choice) {
 			EdgeDetection(prev_choice);
 			break;
 		case 5:
+			FaceDetection(prev_choice);
+			break;
+		case 6:
 			if (prev_choice == 1)
 				Resizing();
 			break;
-		case 6:
+		case 7:
 			if (prev_choice == 1)
 				panoramaStitching();
 			break;
@@ -57,6 +61,10 @@ bool choiceEditingMenu(int choice, int prev_choice) {
 bool choiceFirstMenu(int choice) {
 
 	int safeOpen;
+
+	if(cap.isOpened()){
+		cap.release();
+	}
 
 	if (choice == 0) {
 		return false;
@@ -159,9 +167,9 @@ void printFirstMenu() {
 void printEditingMenu(int choice) {
 	do {
 		if (choice == 1) {
-			drawMenu(7, 2, choice);
+			drawMenu(8, 2, choice);
 		} else {
-			drawMenu(5, 2, choice);
+			drawMenu(6, 2, choice);
 		}
 	} while (!backToFirstMenu);
 }

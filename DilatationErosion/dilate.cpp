@@ -48,9 +48,6 @@ void Dilation(int choice) {
         break;
     }
 
-    // When everything done, release the video capture object
-    cap.release();
-
     if (choice == 2) {
       cap = VideoCapture(videoName);
     }
