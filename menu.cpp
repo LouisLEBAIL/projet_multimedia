@@ -86,10 +86,10 @@ bool choiceFirstMenu(int choice) {
 
 void callBackFuncFirstMenu(int event, int x, int y, int flags, void* userdata)
 {
-	if (event == EVENT_LBUTTONDOWN)
-	{
-		for (vector<button>::iterator bt = buttons.begin() ; bt != buttons.end(); ++bt) {
-			if (bt -> rect.contains(Point(x, y)))
+	for (vector<button>::iterator bt = buttons.begin() ; bt != buttons.end(); ++bt) {
+		if (bt -> rect.contains(Point(x, y)))
+		{
+			if (event == EVENT_LBUTTONDOWN)
 			{
 				destroyAllWindows();
 				if (bt -> id != 0) {
@@ -98,18 +98,22 @@ void callBackFuncFirstMenu(int event, int x, int y, int flags, void* userdata)
 				} else {
 					quitApp = true;
 				}
-				break;
+				return;
 			}
+			rectangle(img, bt -> rect, Scalar(0, 0, 255), 1, 8);
+		} else {
+			rectangle(img, bt -> rect, Scalar(255, 0, 0), 1, 8);
 		}
 	}
+	imshow("display", img);
 }
 
 void callBackFuncEditingMenu(int event, int x, int y, int flags, void* userdata)
 {
-	if (event == EVENT_LBUTTONDOWN)
-	{
-		for (vector<button>::iterator bt = buttons.begin() ; bt != buttons.end(); ++bt) {
-			if (bt -> rect.contains(Point(x, y)))
+	for (vector<button>::iterator bt = buttons.begin() ; bt != buttons.end(); ++bt) {
+		if (bt -> rect.contains(Point(x, y)))
+		{
+			if (event == EVENT_LBUTTONDOWN)
 			{
 				destroyAllWindows();
 				if (bt -> id != 0) {
@@ -118,20 +122,24 @@ void callBackFuncEditingMenu(int event, int x, int y, int flags, void* userdata)
 				} else {
 					backToFirstMenu = true;
 				}
-				break;
+				return;
 			}
+			rectangle(img, bt -> rect, Scalar(0, 0, 255), 1, 8);
+		} else {
+			rectangle(img, bt -> rect, Scalar(255, 0, 0), 1, 8);
 		}
 	}
+	imshow("display", img);
 }
 
 void drawMenu(int size, int menu_nb, int choice) {
 
 	Mat3b canvas;
 
-	Mat3b img(size*100, 300, Vec3b(255, 255, 255));
+	img = Mat3b(size*100, 300, Vec3b(255, 255, 255));
 
 	putText(img, title[choice], Point(30, 60), FONT_HERSHEY_SIMPLEX, 1, Scalar(255,0,0));
-
+	buttons.clear();
 	for (int i = 1; i < size+1; i++) {
 		button bt;
 		bt.rect = Rect(50, 100 + ((i-1)*75), 200, 50);

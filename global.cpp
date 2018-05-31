@@ -41,6 +41,7 @@ int ratio = 3;
 int kernel_size = 3;
 
 // menu
+Mat3b img;
 vector<button> buttons;
 string title[4] = {"C++ Editor", "Image", "Video", "Stream"};
 string texts_first_menu[4] = {"Exit", "Image", "Video", "Stream"};

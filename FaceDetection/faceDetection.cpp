@@ -34,6 +34,9 @@ void FaceDetection(int choice){
 
         imshow( "Display", dst );
 
+        // Wait for any key stroke
+        waitKey(0);
+
     } else {
         
         cout << "press escape to close the video" << endl;
@@ -76,9 +79,6 @@ void FaceDetection(int choice){
         }
 
     }
-
-    // Wait for any key stroke
-    waitKey(0);
 
     //destroy all open windows
     destroyAllWindows();
