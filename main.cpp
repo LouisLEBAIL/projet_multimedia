@@ -9,9 +9,7 @@ using namespace std;
 
 int main(int argc, char** argv){
 
-	do {
-		printFirstMenu();
-	} while(choiceFirstMenu());
+	printFirstMenu();
 
    return 0;
 }

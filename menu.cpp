@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <opencv2/opencv.hpp>
+#include <vector>
 
 #include "global.cpp"
 #include "Resizing/resizing.cpp"
@@ -12,29 +13,16 @@
 
 using namespace std;
 
-void printEditingMenu(int choice) {
-	cout << "0 - back" << endl;
-	cout << "1 - light and dark" << endl;
-	cout << "2 - dilation" << endl;
-	cout << "3 - erosion" << endl;
-	cout << "4 - canny edge detection" << endl;
-	if (choice == 1) {
-		cout << "5 - resizing" << endl;
-		cout << "6 - panorama and stitching" << endl;
-	}
-}
+bool choiceEditingMenu(int choice, int prev_choice);
+void printEditingMenu(int choice);
+bool choiceFirstMenu(int choice);
+void callBackFuncFirstMenu(int event, int x, int y, int flags, void* userdata);
+void callBackFuncEditingMenu(int event, int x, int y, int flags, void* userdata);
+void drawMenu(int size, int menu_nb, int choice);
+int openImage();
+int openVideo(int choice);
 
-void printFirstMenu() {
-	cout << "0 - exit program" << endl;
-	cout << "1 - image" << endl;
-	cout << "2 - vidéo" << endl;
-	cout << "3 - stream" << endl;
-}
-
-bool choiceEditingMenu(int prev_choice) {
-
-	int choice;
-	cin >> choice;
+bool choiceEditingMenu(int choice, int prev_choice) {
 
 	switch(choice) {
 		case 0:
@@ -66,6 +54,118 @@ bool choiceEditingMenu(int prev_choice) {
 	return true;
 }
 
+bool choiceFirstMenu(int choice) {
+
+	int safeOpen;
+
+	if (choice == 0) {
+		return false;
+	} else if (choice == 1) {
+		safeOpen = openImage();
+	} else if (choice == 2 || choice == 3) {
+		safeOpen = openVideo(choice);
+	}
+
+	if (safeOpen == -1)
+		return true;
+
+	if (choice >= 0 && choice <= 3) {
+		printEditingMenu(choice);
+	}
+
+	return true;
+}
+
+void callBackFuncFirstMenu(int event, int x, int y, int flags, void* userdata)
+{
+	if (event == EVENT_LBUTTONDOWN)
+	{
+		for (vector<button>::iterator bt = buttons.begin() ; bt != buttons.end(); ++bt) {
+			if (bt -> rect.contains(Point(x, y)))
+			{
+				destroyAllWindows();
+				if (bt -> id != 0) {
+					choiceFirstMenu(bt -> id);
+					quitApp = false;
+				} else {
+					quitApp = true;
+				}
+				break;
+			}
+		}
+	}
+}
+
+void callBackFuncEditingMenu(int event, int x, int y, int flags, void* userdata)
+{
+	if (event == EVENT_LBUTTONDOWN)
+	{
+		for (vector<button>::iterator bt = buttons.begin() ; bt != buttons.end(); ++bt) {
+			if (bt -> rect.contains(Point(x, y)))
+			{
+				destroyAllWindows();
+				if (bt -> id != 0) {
+					choiceEditingMenu(bt -> id, editingMenuChoice);
+					backToFirstMenu = false;
+				} else {
+					backToFirstMenu = true;
+				}
+				break;
+			}
+		}
+	}
+}
+
+void drawMenu(int size, int menu_nb, int choice) {
+
+	Mat3b canvas;
+
+	Mat3b img(size*100, 300, Vec3b(255, 255, 255));
+
+	putText(img, title[choice], Point(30, 60), FONT_HERSHEY_SIMPLEX, 1, Scalar(255,0,0));
+
+	for (int i = 1; i < size+1; i++) {
+		button bt;
+		bt.rect = Rect(50, 100 + ((i-1)*75), 200, 50);
+		bt.id = i-1;
+		buttons.push_back(bt);
+    	rectangle(img, bt.rect, Scalar(255, 0, 0), 1, 8);
+		if (menu_nb == 1)
+			putText(img, texts_first_menu[i-1], Point(bt.rect.x + bt.rect.width*0.15, bt.rect.y + bt.rect.height*0.7), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255,0,0));
+		else
+			putText(img, texts_editing_menu[i-1], Point(bt.rect.x + bt.rect.width*0.15, bt.rect.y + bt.rect.height*0.7), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255,0,0));
+	}
+
+	namedWindow("display");
+	moveWindow("display", 500, 50);
+
+	if (menu_nb == 1) {
+    	setMouseCallback("display", callBackFuncFirstMenu);
+	} else {
+		editingMenuChoice = choice;
+		setMouseCallback("display", callBackFuncEditingMenu);
+	}
+    imshow("display", img);
+
+	waitKey(0);
+}
+
+void printFirstMenu() {
+	do {
+		drawMenu(4, 1, 0);
+	} while (!quitApp);
+}
+
+void printEditingMenu(int choice) {
+	do {
+		if (choice == 1) {
+			drawMenu(7, 2, choice);
+		} else {
+			drawMenu(5, 2, choice);
+		}
+	} while (!backToFirstMenu);
+}
+
 int openImage() {
 	cout << "Choisissez votre image file" << endl;
 	string imageName;
@@ -94,30 +194,4 @@ int openVideo(int choice) {
 		return -1;
 	}
 	return 0;
-}
-
-bool choiceFirstMenu() {
-	int choice;
-	cin >> choice;
-
-	int safeOpen;
-
-	if (choice == 0) {
-		return false;
-	} else if (choice == 1) {
-		safeOpen = openImage();
-	} else if (choice == 2 || choice == 3) {
-		safeOpen = openVideo(choice);
-	}
-
-	if (safeOpen == -1)
-		return true;
-
-	if (choice > 0 && choice <= 3) {
-		do {
-			printEditingMenu(choice);
-		} while (choiceEditingMenu(choice));
-	}
-
-	return true;
 }

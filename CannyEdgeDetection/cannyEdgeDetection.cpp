@@ -31,6 +31,7 @@ void EdgeDetection(int choice)
 
   /// Create a window
   namedWindow("Display", WINDOW_AUTOSIZE);
+  moveWindow("display", 500, 50);
 
   /// Create a Trackbar for user to enter threshold
   createTrackbar( "Min Threshold:", "Display", &lowThreshold, max_lowThreshold, CannyThreshold );
