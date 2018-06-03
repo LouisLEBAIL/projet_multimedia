@@ -13,7 +13,7 @@ struct button {
 
 // Global variables
 Mat src, src2, dst, src_gray, detected_edges;
-VideoCapture cap;
+VideoCapture cap_stream, cap_video;
 
 // Video
 string videoName;
@@ -50,3 +50,4 @@ string texts_editing_menu[8] = {"Back", "Light and dark", "Dilation", "Erosion",
 int editingMenuChoice;
 bool backToFirstMenu = false;
 bool quitApp = false;
+bool cap_initialised = false;

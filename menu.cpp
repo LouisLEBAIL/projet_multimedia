@@ -62,8 +62,8 @@ bool choiceFirstMenu(int choice) {
 
 	int safeOpen;
 
-	if(cap.isOpened()){
-		cap.release();
+	if (cap_video.isOpened()){
+		cap_video.release();
 	}
 
 	if (choice == 0) {
@@ -205,14 +205,20 @@ int openVideo(int choice) {
 	if (choice == 2) {
 		cout << "Choisissez votre video file" << endl;
 		cin >> videoName;
-		cap = VideoCapture(videoName);
+		cap_video = VideoCapture(videoName);
+		if(!cap_video.isOpened()) {
+			cout << "Error opening stream " << endl;
+			return -1;
+		}
 	} else {
-		cap = VideoCapture(1);
-	}
-
-	if(!cap.isOpened()){
-		cout << "Error opening video stream or file" << endl;
-		return -1;
+		if (!cap_initialised) {
+			cap_stream = VideoCapture(1);
+			cap_initialised = true;
+		}
+		if(!cap_stream.isOpened()) {
+			cout << "Error opening video file " << endl;
+			return -1;
+		}
 	}
 	return 0;
 }

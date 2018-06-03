@@ -51,14 +51,18 @@ void EdgeDetection(int choice)
     cout << "press escape to close the video" << endl;
     while(1) {
 
-      // Capture frame-by-frame
-      cap >> src;
+      if (choice == 2) {
+        // Capture frame-by-frame
+        cap_video >> src;
 
-      // If the frame is empty, break immediately
-      if (!cap.read(src)) 
-      {
-          cout << "end of the video!" << endl;
-          break;
+        // If the frame is empty, break immediately
+        if (!cap_video.read(src)) 
+        {
+            cout << "end of the video!" << endl;
+            break;
+        }
+      } else {
+        cap_stream >> src;
       }
 
       /// Create a matrix of the same type and size as src (for dst)
@@ -76,7 +80,7 @@ void EdgeDetection(int choice)
     }
 
     if (choice == 2) {
-      cap = VideoCapture(videoName);
+      cap_video = VideoCapture(videoName);
     }
   }
 

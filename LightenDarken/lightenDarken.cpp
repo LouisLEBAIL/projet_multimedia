@@ -33,26 +33,31 @@ void lightDark(int choice)
         cout << "press escape to close the video" << endl;
         while(1) {
 
+        if (choice == 2) {
         // Capture frame-by-frame
-        cap >> src;
+        cap_video >> src;
 
         // If the frame is empty, break immediately
-        if (!cap.read(src)) 
+        if (!cap_video.read(src)) 
         {
             cout << "end of the video!" << endl;
             break;
         }
+      } else {
+        cap_stream >> src;
+      }
 
         on_trackbar1(alpha_slider, 0);
 
         // Press  ESC on keyboard to exit
         char c=(char)waitKey(25);
-        if(c==27)
-            break;
+            if(c==27) {
+                break;
+            }
         }
 
         if (choice == 2) {
-            cap = VideoCapture(videoName);
+            cap_video = VideoCapture(videoName);
         }
 
   }
